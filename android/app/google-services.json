@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "679094631430",
+    "project_id": "carros-7f39b",
+    "storage_bucket": "carros-7f39b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:679094631430:android:d4013df980205368b21787",
+        "android_client_info": {
+          "package_name": "com.flavianoinacio.flutter_pokemons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "679094631430-99bpqt78ufldmaje8djjujecu09gidcs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flavianoinacio.flutter_pokemons",
+            "certificate_hash": "d0cac104ee4c98d3793af8fa7e935e80d2ed0254"
+          }
+        },
+        {
+          "client_id": "679094631430-200lb5cdldjnfqkd46m2qo6enb53pob9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYwS6Y0Wdk8CwkoZfZR1AGRpF4fcj1O78"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "679094631430-200lb5cdldjnfqkd46m2qo6enb53pob9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
