@@ -109,8 +109,6 @@ class _LoginPageState extends State<LoginPage> {
     print("login : " + login + " Senha : " + senha);
     ApiResponse apiResponse = await bloc.login(login, senha);
     if(apiResponse.ok){
-      Usuario user = apiResponse.results;
-      print(user);
       navigator(context,HomePageCarro(),replace: true);
     }
     else{

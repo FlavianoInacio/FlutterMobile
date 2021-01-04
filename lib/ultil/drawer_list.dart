@@ -63,10 +63,11 @@ class DrawerPage extends StatelessWidget {
 
   UserAccountsDrawerHeader _header(Usuario user) {
     return UserAccountsDrawerHeader(
-            accountName: Text(user.nome),
+            accountName: user.nome!=null?Text(user.nome):Text(""),
             accountEmail: Text(user.email),
             currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage(user.urlFoto),),
+              backgroundImage:  user.urlFoto!=null?NetworkImage(user.urlFoto):
+              AssetImage('assets/images/naoencontrada.png'),),
           );
   }
 

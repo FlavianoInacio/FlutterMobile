@@ -33,7 +33,27 @@ class FirebaseService {
         urlFoto: fuser.photoURL,
       );
       user.save();
-      return ApiResponse.ok("user");
+      return ApiResponse.ok(results: "user");
+    } catch (e) {
+      return ApiResponse.error("Erro ao tentar fazer o login!");
+    }
+  }
+
+  Future<ApiResponse<String>> login(String email, String senha) async {
+    try {
+
+      UserCredential  result = await _auth.signInWithEmailAndPassword(email: email, password: senha);
+      print(result.user);
+      final User fuser = result.user;
+
+      final user = Usuario(
+        nome: fuser.displayName,
+        login: fuser.email,
+        email: fuser.email,
+        urlFoto: fuser.photoURL,
+      );
+      user.save();
+      return ApiResponse.ok();
     } catch (e) {
       return ApiResponse.error("Erro ao tentar fazer o login!");
     }

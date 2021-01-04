@@ -3,7 +3,7 @@ class ApiResponse<T>{
   String mensagem;
   T results;
 
-  ApiResponse.ok(this.results){
+  ApiResponse.ok({this.results}){
     ok = true;
   }
 

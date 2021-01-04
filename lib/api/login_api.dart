@@ -24,7 +24,7 @@ class LoginApi {
         Usuario user2 = await Usuario.get();
         print("user 2" + user2.toString());
 
-        return ApiResponse.ok(user);
+        return ApiResponse.ok(results: user);
       }
       else {
         return ApiResponse.error(mapResponse["error"]);
