@@ -11,7 +11,7 @@ class DrawerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<Usuario> future1 = Usuario.get();
+    Future<Usuario> future = Usuario.get();
     return SafeArea(
       child: Drawer(
         child: ListView(
