@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_pokemons/instancias/usuario.dart';
 import 'package:flutter_pokemons/ultil/api_response.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -56,6 +58,35 @@ class FirebaseService {
       return ApiResponse.ok();
     } catch (e) {
       return ApiResponse.error("Erro ao tentar fazer o login!");
+    }
+  }
+  Future<ApiResponse<String>> cadastrar(String email, String senha,String nome) async {
+    try {
+
+      UserCredential  result = await _auth.createUserWithEmailAndPassword(email: email, password: senha);
+      print(result.user);
+      final User fuser = result.user;
+      fuser.updateProfile(displayName: nome, photoURL: "https://image.flaticon.com/icons/png/512/17/17004.png");
+      //fuser.reload();
+
+      final user = Usuario(
+        nome: fuser.displayName,
+        login: fuser.email,
+        email: fuser.email,
+        urlFoto: fuser.photoURL,
+      );
+      user.save();
+      return ApiResponse.ok();
+    } on FirebaseAuthException catch  (error) {
+      String errormsg;
+      print("code${error.code}");
+      if(error.code == "weak-password"){
+        errormsg = "Senha deve conter no mínimo 6 digitos";
+      }
+      if(error.code == "email-already-in-use"){
+        errormsg = "E-mail já existente";
+      }
+      return ApiResponse.error("Erro ao tentar fazer o login! ${errormsg}");
     }
   }
 

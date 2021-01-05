@@ -8,13 +8,19 @@ class TextPage extends StatelessWidget {
   FormFieldValidator<String> validator;
   TextInputType keyboardType;
   TextInputAction textInputAction;
+  TextStyle textStyle;
+  TextStyle labelStyle;
+  TextStyle hintStyle;
 
   TextPage(this.labelText, this.hintText,
       {this.obscureText = false,
       this.controller,
       this.validator,
       this.keyboardType,
-      this.textInputAction});
+      this.textInputAction,
+      this.textStyle,
+      this.labelStyle,
+      this.hintStyle});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +30,12 @@ class TextPage extends StatelessWidget {
       obscureText: obscureText,
       validator: validator,
       textInputAction: textInputAction,
-      style: TextStyle(color: Colors.blue),
+      style: textStyle==null?TextStyle(color: Colors.blue):textStyle,
       decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,
-          labelStyle: (TextStyle(fontSize: 16)),
-          hintStyle: (TextStyle(fontSize: 13))),
+          labelStyle: labelStyle==null?(TextStyle(fontSize: 16)):labelStyle,
+          hintStyle: hintStyle==null?(TextStyle(fontSize: 13)):hintStyle),
     );
   }
 }

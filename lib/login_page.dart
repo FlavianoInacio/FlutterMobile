@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auth_buttons/res/buttons/google_auth_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemons/blocs/bloc_login.dart';
+import 'package:flutter_pokemons/carros/cadastro_usuario.dart';
 import 'package:flutter_pokemons/carros/home_page_carro.dart';
 import 'package:flutter_pokemons/pokemons/home_page_pokemon.dart';
 import 'package:flutter_pokemons/services/firebase_service.dart';
@@ -72,27 +73,42 @@ class _LoginPageState extends State<LoginPage> {
               height: 20,
             ),
             StreamBuilder<bool>(
-              stream: bloc.fetch,
-              initialData: false,
-              builder: (context, snapshot) {
-                return ButtonPage(
-                  "Login",
-                  onPressed: (){
-                    _onclick(context);
-                  },
-                  showProgress: snapshot.data,
-                );
-              }
-            ),
+                stream: bloc.fetch,
+                initialData: false,
+                builder: (context, snapshot) {
+                  return ButtonPage(
+                    "Login",
+                    onPressed: () {
+                      _onclick(context);
+                    },
+                    showProgress: snapshot.data,
+                  );
+                }),
             Container(
               padding: EdgeInsets.only(top: 10),
               child: GoogleAuthButton(
-                onPressed: (){
+                onPressed: () {
                   _loginGoogle();
                 },
                 darkMode: false,
               ),
             ),
+            Container(
+              padding: EdgeInsets.only(top: 20),
+              child: Center(
+                child: InkWell(
+                  onTap: _onclickCadastrar,
+                  child: Text(
+                    "Cadastre-se",
+                    style: TextStyle(
+                      fontSize: 22,
+                      color: Colors.blue,
+                      decoration: TextDecoration.underline
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -108,13 +124,11 @@ class _LoginPageState extends State<LoginPage> {
     String senha = _tsenha.text;
     print("login : " + login + " Senha : " + senha);
     ApiResponse apiResponse = await bloc.login(login, senha);
-    if(apiResponse.ok){
-      navigator(context,HomePageCarro(),replace: true);
+    if (apiResponse.ok) {
+      navigator(context, HomePageCarro(), replace: true);
+    } else {
+      alert(context, apiResponse.mensagem);
     }
-    else{
-      alert(context,apiResponse.mensagem);
-    }
-
   }
 
   String _validateLogin(String value) {
@@ -130,6 +144,7 @@ class _LoginPageState extends State<LoginPage> {
     }
     return null;
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -140,11 +155,14 @@ class _LoginPageState extends State<LoginPage> {
   _loginGoogle() async {
     final service = FirebaseService();
     ApiResponse apiResponse = await service.loginGoogle();
-    if(apiResponse.ok){
-      navigator(context,HomePageCarro(),replace: true);
-    }
-    else{
+    if (apiResponse.ok) {
+      navigator(context, HomePageCarro(), replace: true);
+    } else {
       alert(context, apiResponse.mensagem);
     }
+  }
+
+  void _onclickCadastrar() {
+    navigator(context, CadastroUsuario(), replace: true);
   }
 }
