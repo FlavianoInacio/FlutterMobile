@@ -26,7 +26,7 @@ class _CarroPageState extends State<CarroPage> {
 
   @override
   void initState() {
-    FavoritoService.getCarroFavorito(widget.carro).then((favorito) {
+    FavoritoService().getCarroFavorito(widget.carro).then((favorito) {
       setState(() {
         color = favorito ? Colors.red : Colors.grey;
       });
@@ -134,7 +134,7 @@ class _CarroPageState extends State<CarroPage> {
   }
 
   void _onclickFavorite() async {
-    bool exists = await FavoritoService.favoritar(widget.carro,context);
+    bool exists = await FavoritoService().favoritar(widget.carro);
     setState(() {
       color = !exists ? Colors.red : Colors.grey;
     });

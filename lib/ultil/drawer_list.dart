@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'file:///C:/Users/flaviano.inacio/AndroidStudioProjects/flutter_pokemons/lib/carros/home_page_carro.dart';
 import 'package:flutter_pokemons/instancias/usuario.dart';
 import 'package:flutter_pokemons/login_page.dart';
@@ -6,20 +8,19 @@ import 'package:flutter_pokemons/ultil/nav.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_pokemons/services/firebase_service.dart';
 
+import 'github_page.dart';
+
 
 class DrawerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<Usuario> future = Usuario.get();
+    User user = FirebaseAuth.instance.currentUser;
     return SafeArea(
       child: Drawer(
         child: ListView(
           children: [
-            FutureBuilder<Usuario>(future: future, builder: (context, snapshot) {
-              Usuario user = snapshot.data;
-              return user != null? _header(user):Container();
-            }, ),
+            _header(user),
             ListTile(
               leading: Icon(Icons.help),
               title: Text("Sobre o Desenvolvedor",style: TextStyle(color: Colors.black),),
@@ -27,6 +28,16 @@ class DrawerPage extends StatelessWidget {
               trailing: Icon(Icons.arrow_forward),
               onTap: (){
                 navigator(context,HomePageCarro());
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.web),
+              title: Text("Acesso o GitHub"),
+              subtitle: Text("Informações do github e todos os repositórios..."),
+              trailing: Icon(Icons.arrow_forward),
+              onTap: (){
+                Navigator.pop(context);
+                navigator(context,GitHubPage());
               },
             ),
             ListTile(
@@ -61,12 +72,12 @@ class DrawerPage extends StatelessWidget {
     );
   }
 
-  UserAccountsDrawerHeader _header(Usuario user) {
+  UserAccountsDrawerHeader _header(User user) {
     return UserAccountsDrawerHeader(
-            accountName: user.nome!=null?Text(user.nome):Text(""),
+            accountName: user.displayName!=null?Text(user.displayName):Text(""),
             accountEmail: Text(user.email),
             currentAccountPicture: CircleAvatar(
-              backgroundImage:  user.urlFoto!=null?NetworkImage(user.urlFoto):
+              backgroundImage:  user.photoURL!=null?NetworkImage(user.photoURL):
               AssetImage('assets/images/naoencontrada.png'),),
           );
   }

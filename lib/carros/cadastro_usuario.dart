@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemons/carros/home_page_carro.dart';
 import 'package:flutter_pokemons/login_page.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_pokemons/ultil/api_response.dart';
 import 'package:flutter_pokemons/ultil/nav.dart';
 import 'package:flutter_pokemons/widgets/button_page.dart';
 import 'package:flutter_pokemons/widgets/text_page.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CadastroUsuario extends StatefulWidget {
   @override
@@ -17,6 +20,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
   var _tnome = TextEditingController();
   var _temail = TextEditingController();
   var _tsenha = TextEditingController();
+  File _file;
   bool _progress = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -37,6 +41,21 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
           padding: EdgeInsets.all(12),
           child: ListView(
             children: [
+              InkWell(
+                onTap: _onclickCamera,
+                child: Container(
+                  height: 200,
+                  decoration: new BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(
+                      fit: BoxFit.fill,
+                      image: _file!=null?FileImage(_file):AssetImage(
+                        "assets/images/naoencontrada.png",
+                      ),
+                    )
+                  ),
+                )
+              ),
               TextPage(
                 "Nome",
                 "Digite o nome",
@@ -123,7 +142,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     String nome = _tnome.text;
     String email = _temail.text;
     String senha = _tsenha.text;
-    ApiResponse apiResponse = await FirebaseService().cadastrar(email, senha, nome);
+    ApiResponse apiResponse = await FirebaseService().cadastrar(email, senha, nome,_file);
     if(apiResponse.ok){
       navigator(context, HomePageCarro(), replace: true);
     }
@@ -137,5 +156,15 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
 
   _conclickCancelar() {
     navigator(context, LoginPage(),replace: true);
+  }
+
+  void _onclickCamera() async {
+    final picker = ImagePicker();
+    PickedFile image = await picker.getImage(source:ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        _file = File(image.path);
+      });
+    }
   }
 }
