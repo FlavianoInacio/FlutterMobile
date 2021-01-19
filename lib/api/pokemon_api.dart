@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter_pokemons/database/pokemon_dao.dart';
-import 'package:flutter_pokemons/instancias/carro.dart';
 import 'package:flutter_pokemons/instancias/pokemon.dart';
 import 'package:http/http.dart' as http;
 

@@ -6,7 +6,7 @@ alert(BuildContext context, String msg, {Function calback}) {
       builder: (context) {
         return WillPopScope(
           child: AlertDialog(
-            title: Text("Carros"),
+            title: Text("Pokemons"),
             content: Text(msg),
             actions: [
               FlatButton(

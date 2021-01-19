@@ -15,31 +15,40 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
-
     initFcm();
 
     User userlogado = FirebaseAuth.instance.currentUser;
     Future futureA = DatabaseHelper.getInstance().db;
-    Future futureB = Future.delayed(Duration(seconds: 3));
-    Future.wait([futureA,futureB]).then((List values){
+    Future futureB = Future.delayed(Duration(seconds: 5));
+    Future.wait([futureA, futureB]).then((List values) {
       User user = userlogado;
-      if(user!=null){
+      if (user != null) {
         firebaseUserId = user.uid;
       }
-      if(user!=null){
-        navigator(context, HomePageCarro(),replace: true);
-      }
-      else{
-        navigator(context,LoginPage(),replace: true);
+      if (user != null) {
+        navigator(context, HomePageCarro(), replace: true);
+      } else {
+        navigator(context, LoginPage(), replace: true);
       }
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue, child: Center(child: CircularProgressIndicator(
-      backgroundColor: Colors.white,
-    ),),);
+      decoration: BoxDecoration(
+        color: Colors.white,
+        image: DecorationImage(
+          image: AssetImage('assets/images/capa.png'),
+          fit: BoxFit.cover
+        )
+      ),
+      child: Center(
+        child: CircularProgressIndicator(
+          backgroundColor: Colors.white,
+        ),
+      ),
+    );
   }
 }

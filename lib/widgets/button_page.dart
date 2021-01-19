@@ -15,7 +15,9 @@ class ButtonPage extends StatelessWidget {
     return Container(
       height: 46,
       child: RaisedButton(
-        color: buttonColor==null?Colors.blue:buttonColor,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),),
+        color: buttonColor==null?Colors.red:buttonColor,
         onPressed: onPressed,
         child: Center(
           child: this.showProgress? CircularProgressIndicator(

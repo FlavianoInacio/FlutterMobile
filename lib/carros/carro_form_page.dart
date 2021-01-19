@@ -39,7 +39,7 @@ class _CarroFormPageState extends State<CarroFormPage> {
   // Add validate email function.
   String _validateNome(String value) {
     if (value.isEmpty) {
-      return 'Informe o nome do carro.';
+      return 'Informe o nome do Pokemon.';
     }
 
     return null;
@@ -62,7 +62,7 @@ class _CarroFormPageState extends State<CarroFormPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          carro != null ? carro.nome : "Novo Carro",
+          carro != null ? carro.nome : "Novo Pokemon",
         ),
       ),
       body: Container(
@@ -103,11 +103,17 @@ class _CarroFormPageState extends State<CarroFormPage> {
             keyboardType: TextInputType.text,
             validator: _validateNome,
           ),
+          SizedBox(
+            height: 10,
+          ),
           TextPage(
             "Descrição",
             "",
             controller: tDesc,
             keyboardType: TextInputType.text,
+          ),
+          SizedBox(
+            height: 20,
           ),
           ButtonPage(
             "Salvar",
@@ -149,7 +155,7 @@ class _CarroFormPageState extends State<CarroFormPage> {
           onChanged: _onClickTipo,
         ),
         Text(
-          "Clássicos",
+          "Fogo",
           style: TextStyle(color: Colors.blue, fontSize: 12),
         ),
         Radio(
@@ -158,7 +164,7 @@ class _CarroFormPageState extends State<CarroFormPage> {
           onChanged: _onClickTipo,
         ),
         Text(
-          "Esportivos",
+          "Água",
           style: TextStyle(color: Colors.blue, fontSize: 12),
         ),
         Radio(
@@ -167,7 +173,7 @@ class _CarroFormPageState extends State<CarroFormPage> {
           onChanged: _onClickTipo,
         ),
         Text(
-          "Luxo",
+          "Planta",
           style: TextStyle(color: Colors.blue, fontSize: 12),
         ),
       ],
@@ -182,9 +188,9 @@ class _CarroFormPageState extends State<CarroFormPage> {
 
   getTipoInt(Carro carro) {
     switch (carro.tipo) {
-      case "classicos":
+      case "Fogo":
         return 0;
-      case "esportivos":
+      case "Agua":
         return 1;
       default:
         return 2;
@@ -194,11 +200,11 @@ class _CarroFormPageState extends State<CarroFormPage> {
   String _getTipo() {
     switch (_radioIndex) {
       case 0:
-        return "classicos";
+        return "Fogo";
       case 1:
-        return "esportivos";
+        return "Agua";
       default:
-        return "luxo";
+        return "Planta";
     }
   }
 
@@ -223,11 +229,15 @@ class _CarroFormPageState extends State<CarroFormPage> {
 
     //await Future.delayed(Duration(seconds: 3));
 
-    ApiResponse<bool> response = await CarroApi.save(c,_file);
+    ApiResponse<bool> response = await CarroApi.saveFirebase(c,_file);
     if (response.ok) {
-      alert(context, "Carro salvo com sucesso!", calback: () {
-        Provider.of<EventBus>(context,listen: false).sendEvent("Carro_salvo");
+      alert(context, "Item salvo com sucesso!", calback: () {
+       // Provider.of<EventBus>(context,listen: false).sendEvent("Carro_salvo");
         Navigator.pop(context);
+        if(carro != null){
+          Navigator.pop(context);
+        }
+
       });
     } else {
       alert(context, response.mensagem);

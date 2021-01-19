@@ -1,5 +1,4 @@
 import 'package:flutter_pokemons/database/base_dao.dart';
-import 'package:flutter_pokemons/instancias/entity.dart';
 import 'package:flutter_pokemons/instancias/favorito.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 

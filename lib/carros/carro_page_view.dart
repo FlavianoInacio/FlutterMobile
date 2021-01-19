@@ -1,11 +1,12 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemons/blocs/bloc_carro.dart';
 import 'package:flutter_pokemons/instancias/carro.dart';
-import 'package:flutter_pokemons/ultil/event_bus.dart';
-import 'file:///C:/Users/flaviano.inacio/AndroidStudioProjects/flutter_pokemons/lib/carros/carro_listview.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_pokemons/services/firebase_service.dart';
+
+import 'carro_listview.dart';
 
 class CarroPageView extends StatefulWidget {
   @override
@@ -19,6 +20,16 @@ class CarroPageView extends StatefulWidget {
 
 class _CarroPageViewState extends State<CarroPageView>
     with AutomaticKeepAliveClientMixin<CarroPageView> {
+  CollectionReference get _users =>
+      FirebaseFirestore.instance.collection("users");
+
+  get _carros => _users
+      .doc(firebaseUserId)
+      .collection("pokemons")
+      .where('tipo', isEqualTo: widget.tipoCarro).orderBy("id", descending: false);
+
+  Stream<QuerySnapshot> get stream => _carros.snapshots();
+
   final bloc = BlocCarro();
 
   StreamSubscription<String> subscription;
@@ -27,19 +38,14 @@ class _CarroPageViewState extends State<CarroPageView>
   void initState() {
     // TODO: implement initState
     super.initState();
-    bloc.loadData(widget.tipoCarro);
 
-    final bus = Provider.of<EventBus>(context,listen: false);
-    subscription = bus.stream.listen((String s){
-      bloc.loadData(widget.tipoCarro);
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return StreamBuilder(
-        stream: bloc.fetch,
+    return StreamBuilder<QuerySnapshot>(
+        stream: stream,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -51,11 +57,16 @@ class _CarroPageViewState extends State<CarroPageView>
               child: CircularProgressIndicator(),
             );
           }
-          List<Carro> carros = snapshot.data;
-          return RefreshIndicator(
-            onRefresh: _onRefresh,
-            child: CarroListView(carros),
-          );
+          if(!snapshot.hasData || snapshot.data.docs.isEmpty) {
+            return Center(
+              child: Text("Não existe nenhum registro!",style: TextStyle(fontSize: 18,color: Colors.blue,fontWeight: FontWeight.bold),),
+            );
+          }
+          List<Carro> carros =
+              snapshot.data.docs.map((DocumentSnapshot document) {
+            return Carro.fromMap(document.data());
+          }).toList();
+          return CarroListView(carros);
         });
   }
 
@@ -68,10 +79,5 @@ class _CarroPageViewState extends State<CarroPageView>
     super.dispose();
     bloc.dispose();
     subscription.cancel();
-  }
-
-  Future<void> _onRefresh() {
-    return bloc.loadData(widget.tipoCarro);
-
   }
 }

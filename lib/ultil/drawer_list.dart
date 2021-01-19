@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'file:///C:/Users/flaviano.inacio/AndroidStudioProjects/flutter_pokemons/lib/carros/home_page_carro.dart';
+import 'package:flutter_pokemons/carros/home_page_carro.dart';
 import 'package:flutter_pokemons/instancias/usuario.dart';
 import 'package:flutter_pokemons/login_page.dart';
 import 'package:flutter_pokemons/ultil/nav.dart';
+import 'package:flutter_pokemons/ultil/pagina_pessoal.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_pokemons/services/firebase_service.dart';
 
@@ -27,7 +28,7 @@ class DrawerPage extends StatelessWidget {
               subtitle: Text("Informações sobre o desenvolvimento do aplicativo..."),
               trailing: Icon(Icons.arrow_forward),
               onTap: (){
-                navigator(context,HomePageCarro());
+                navigator(context,PaginaPessoal());
               },
             ),
             ListTile(

@@ -30,12 +30,16 @@ class TextPage extends StatelessWidget {
       obscureText: obscureText,
       validator: validator,
       textInputAction: textInputAction,
-      style: textStyle==null?TextStyle(color: Colors.blue):textStyle,
+      style: textStyle==null?TextStyle(color: Colors.red):textStyle,
       decoration: InputDecoration(
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
           labelText: labelText,
           hintText: hintText,
           labelStyle: labelStyle==null?(TextStyle(fontSize: 16)):labelStyle,
           hintStyle: hintStyle==null?(TextStyle(fontSize: 13)):hintStyle),
+
     );
   }
 }

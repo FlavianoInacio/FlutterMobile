@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemons/carros/carro_listview.dart';
 import 'package:flutter_pokemons/instancias/carro.dart';
 import 'package:flutter_pokemons/services/favorito_service.dart';
-import 'file:///C:/Users/flaviano.inacio/AndroidStudioProjects/flutter_pokemons/lib/carros/carro_listview.dart';
-import 'package:flutter_pokemons/services/firebase_service.dart';
 
 class FavoritoPageView extends StatefulWidget {
 
@@ -38,6 +37,11 @@ class _FavoritoPageViewState extends State<FavoritoPageView>
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
+            );
+          }
+          if(snapshot.data.docs.isEmpty) {
+            return Center(
+              child: Text("Não existe nenhum registro!",style: TextStyle(fontSize: 18,color: Colors.blue,fontWeight: FontWeight.bold),),
             );
           }
           List<Carro> carros = snapshot.data.docs.map((DocumentSnapshot document){

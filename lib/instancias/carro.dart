@@ -12,6 +12,8 @@ class Carro extends Entity {
   String urlVideo;
   String latitude;
   String longitude;
+  String idFirebase;
+  bool favorito;
 
   Carro(
       {this.id,
@@ -21,7 +23,9 @@ class Carro extends Entity {
         this.urlFoto,
         this.urlVideo,
         this.latitude,
-        this.longitude});
+        this.longitude,
+        this.idFirebase,
+        this.favorito});
 
   Carro.fromMap(Map<String, dynamic> json) {
     id = json['id'];
@@ -32,6 +36,8 @@ class Carro extends Entity {
     urlVideo = json['urlVideo'];
     latitude = json['latitude'];
     longitude = json['longitude'];
+    idFirebase = json['idFirebase'];
+    favorito = json['favorito'];
   }
 @override
   Map<String, dynamic> toMap() {
@@ -44,6 +50,8 @@ class Carro extends Entity {
     data['urlVideo'] = this.urlVideo;
     data['latitude'] = this.latitude;
     data['longitude'] = this.longitude;
+    data['idFirebase'] = this.idFirebase;
+    data['favorito'] = this.favorito;
     return data;
   }
 

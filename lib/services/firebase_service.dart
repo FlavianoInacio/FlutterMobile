@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_pokemons/instancias/carro.dart';
 import 'package:flutter_pokemons/instancias/usuario.dart';
 import 'package:flutter_pokemons/ultil/api_response.dart';
+import 'package:flutter_pokemons/ultil/save_inicial.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 String firebaseUserId;
@@ -41,6 +42,7 @@ class FirebaseService {
         urlFoto: fuser.photoURL,
       );
       saveUser(fuser);
+      saveInicial();
       user.save();
       return ApiResponse.ok(results: "user");
     } catch (e) {
@@ -62,6 +64,7 @@ class FirebaseService {
         urlFoto: fuser.photoURL,
       );
       saveUser(fuser);
+      saveInicial();
       user.save();
       return ApiResponse.ok();
     } catch (e) {
@@ -87,6 +90,7 @@ class FirebaseService {
         urlFoto: fuser.photoURL,
       );
       saveUser(fuser);
+      saveInicial();
       user.save();
       return ApiResponse.ok();
     } on FirebaseAuthException catch (error) {
@@ -116,23 +120,6 @@ class FirebaseService {
     }
   }
 
-  void saveInicial() {
-    CollectionReference _users = FirebaseFirestore.instance.collection("users");
-    CollectionReference _carros = _users.doc(firebaseUserId).collection(
-        "pokemons");
-    Carro c = Carro(
-      urlFoto: "https://img.favpng.com/23/11/19/pok-mon-x-and-y-pok-mon-go-charmander-bulbasaur-png-favpng-98YaXQZ0nhR5dfexbyMxfgNNB_t.jpg",
-      nome: "Charmander",
-      descricao: "Pokemon Brother",
-      id: 1,
-      latitude: "-23.564224",
-      longitude: "-46.653156",
-      tipo: "Fogo",
-      urlVideo: "https://www.youtube.com/watch?v=uGtBcsAITfg"
-    );
-    DocumentReference docRef = _carros.doc("${c.id}");
-    docRef.set(c.toMap());
-  }
 
   Future<void> logout() async {
     await _auth.signOut();

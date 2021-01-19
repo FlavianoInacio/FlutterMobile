@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'file:///C:/Users/flaviano.inacio/AndroidStudioProjects/flutter_pokemons/lib/carros/carro_page.dart';
 import 'package:flutter_pokemons/instancias/carro.dart';
 import 'package:flutter_pokemons/ultil/nav.dart';
 import 'package:share/share.dart';
+
+import 'carro_page.dart';
 
 class CarroListView extends StatelessWidget {
   List<Carro> carros;
@@ -101,7 +102,7 @@ class CarroListView extends StatelessWidget {
               Navigator.pop(context);
               _onclickDetalhes(context, c);
             },
-            trailing: Icon(Icons.directions_car),
+            trailing: Icon(Icons.adb),
           ),
           ListTile(
             title: Text("Share"),

@@ -4,6 +4,7 @@ import 'package:flutter_pokemons/api/carro_api.dart';
 import 'package:flutter_pokemons/carros/carro_form_page.dart';
 import 'package:flutter_pokemons/carros/mapa_page.dart';
 import 'package:flutter_pokemons/carros/video_page.dart';
+import 'package:flutter_pokemons/carros/youtube_page.dart';
 import 'package:flutter_pokemons/instancias/carro.dart';
 import 'package:flutter_pokemons/services/favorito_service.dart';
 import 'package:flutter_pokemons/ultil/alert.dart';
@@ -11,6 +12,7 @@ import 'package:flutter_pokemons/ultil/api_response.dart';
 import 'package:flutter_pokemons/ultil/event_bus.dart';
 import 'package:flutter_pokemons/ultil/nav.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 class CarroPage extends StatefulWidget {
   Carro carro;
@@ -119,7 +121,7 @@ class _CarroPageState extends State<CarroPage> {
   }
 
   void _onclickVideo(Carro c) {
-   navigator(context,VideoPage(c),replace: false);
+   navigator(context,YoutubePage(c),replace: false);
   }
 
   _onclickMenuButton(value) {
@@ -140,7 +142,9 @@ class _CarroPageState extends State<CarroPage> {
     });
   }
 
-  void _onclickShare() {}
+  void _onclickShare() {
+    Share.share(widget.carro.urlFoto);
+  }
 
   bloco2() {
     return Column(
@@ -161,10 +165,9 @@ class _CarroPageState extends State<CarroPage> {
 
   void deletar() async {
 
-    ApiResponse<bool> response = await CarroApi.deletar(widget.carro);
+    ApiResponse<bool> response = await CarroApi.deleteFirebase(widget.carro);
     if (response.ok) {
-      alert(context, "Carro Deletado com sucesso!", calback: () {
-        Provider.of<EventBus>(context,listen:false).sendEvent("Carro_deletado");
+      alert(context, "Item Deletado com sucesso!", calback: () {
         Navigator.pop(context);
       });
     } else {

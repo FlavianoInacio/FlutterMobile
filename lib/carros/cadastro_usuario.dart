@@ -38,7 +38,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
     return Form(
         key: _formKey,
         child: Container(
-          padding: EdgeInsets.all(12),
+          padding: EdgeInsets.all(16),
           child: ListView(
             children: [
               InkWell(
@@ -46,15 +46,26 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 child: Container(
                   height: 200,
                   decoration: new BoxDecoration(
-                    shape: BoxShape.circle,
                     image: new DecorationImage(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.contain,
                       image: _file!=null?FileImage(_file):AssetImage(
-                        "assets/images/naoencontrada.png",
+                        "assets/images/image.png",
                       ),
                     )
                   ),
                 )
+              ),
+              Text(
+                "Clique na imagem para tirar uma foto",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+              Divider(),
+              SizedBox(
+                height: 20,
               ),
               TextPage(
                 "Nome",
@@ -62,10 +73,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 controller: _tnome,
                 validator: _validatorNome,
                 textInputAction: TextInputAction.next,
-                labelStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                labelStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
               ),
               SizedBox(
-                height: 20,
+                height: 5,
               ),
               TextPage(
                 "E-mail",
@@ -74,10 +85,10 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 controller: _temail,
                 keyboardType: TextInputType.emailAddress,
                 textInputAction: TextInputAction.next,
-                labelStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                labelStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
               ),
               SizedBox(
-                height: 20,
+                height: 5,
               ),
               TextPage(
                 "Senha",
@@ -86,7 +97,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 validator: _validatorSenha,
                 keyboardType: TextInputType.number,
                 obscureText: true,
-                labelStyle: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),
+                labelStyle: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
               ),
               SizedBox(
                 height: 20,
@@ -103,7 +114,7 @@ class _CadastroUsuarioState extends State<CadastroUsuario> {
                 "Cancelar",
                 onPressed: _conclickCancelar,
                 buttonColor: Colors.white,
-                textButtonColor: TextStyle(color: Colors.blue, fontSize: 22),
+                textButtonColor: TextStyle(color: Colors.red, fontSize: 22),
               ),
             ],
           ),

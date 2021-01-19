@@ -4,14 +4,15 @@ import '../instancias/carro.dart';
 
 class FavoritoService{
   CollectionReference get _users => FirebaseFirestore.instance.collection("users");
-  CollectionReference get _carros => _users.doc(firebaseUserId).collection("carros");
-  Stream<QuerySnapshot> get stream => _carros.snapshots();
+  Query get carros => _users.doc(firebaseUserId).collection("pokemons").where("favorito",isEqualTo: true);
+  CollectionReference get pokemonsall => _users.doc(firebaseUserId).collection("pokemons");
+  Stream<QuerySnapshot> get stream => carros.snapshots();
 
    Future<bool> favoritar(Carro c) async{
-     DocumentReference docRef = _carros.doc("${c.id}");
-     DocumentSnapshot docsnapshot = await docRef.get();
-     final exists = docsnapshot.exists;
+     DocumentReference docRef = pokemonsall.doc("${c.idFirebase}");
+     final exists = await getCarroFavorito(c);
       if(!exists){
+        c.favorito = true;
         docRef.set(c.toMap());
         return false;
       }
@@ -21,9 +22,9 @@ class FavoritoService{
       }
   }
    Future<bool> getCarroFavorito(Carro c) async{
-     DocumentReference docRef = _carros.doc("${c.id}");
-     DocumentSnapshot docsnapshot = await docRef.get();
-     final exists = docsnapshot.exists;
+     Query docRef = pokemonsall.where("idFirebase",isEqualTo: c.idFirebase).where("favorito",isEqualTo: true);
+     QuerySnapshot docsnapshot = await docRef.get();
+     final exists = docsnapshot.size>0?true:false;
     return exists;
   }
 }
